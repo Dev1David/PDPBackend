@@ -1,14 +1,15 @@
 package com.example.PDPMobileGame.repository;
 
 import com.example.PDPMobileGame.entity.UserEntity;
+import org.apache.catalina.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface UserRepository extends CrudRepository<UserEntity, Long> {
+import java.util.Optional;
 
-    @Query(value = "select * from users where name = ?1", nativeQuery = true)
-    UserEntity findByUserName(String name);
+@Repository
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
+   UserEntity findByToken (String token);
+   Optional<UserEntity> findByFirstName(String name);
+   Optional<UserEntity> findByEmail(String email);
 }
