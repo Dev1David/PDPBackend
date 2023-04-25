@@ -3,6 +3,7 @@ package com.example.PDPMobileGame.controller;
 import com.example.PDPMobileGame.entity.UserEntity;
 import com.example.PDPMobileGame.exception.UserNotFoundException;
 import com.example.PDPMobileGame.repository.UserRepository;
+import com.example.PDPMobileGame.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,19 +17,16 @@ import java.util.List;
 @RequestMapping("/api/v1/admin")
 public class AdminController {
 
-    @Autowired
-    private UserRepository userRepository;
+    AdminService adminService = new AdminService();
+
 
     @GetMapping("/users")
     public List<UserEntity> getAllUsers () {
-        return userRepository.findAll();
+        return adminService.getAllUsers();
     }
 
     @GetMapping("/users/{id}")
     public ResponseEntity<UserEntity> getUsers (@PathVariable Long id) {
-        UserEntity user = userRepository.findById(id).orElseThrow(() ->
-                new UserNotFoundException("User with id:" + id + " not found.")
-        );
-        return ResponseEntity.ok(user);
+        return adminService.getUsers(id);
     }
 }
